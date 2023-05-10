@@ -1,15 +1,28 @@
 import Header from './Header'
 import NavigationBar from './NavigationBar'
-interface User {
-  name: {
-    firstname: string
-    lastname: string
-  }
-}
-const PageContent: React.FC<User> = ({ name }) => {
+import User from '../models/user'
+import React from 'react'
+
+const PageContent: React.FC<User> = ({
+  id,
+  name,
+  username,
+  password,
+  email,
+  address,
+  phone,
+}) => {
   return (
     <div>
-      <Header name={name} />
+      <Header
+        id={id}
+        name={name}
+        username={username}
+        password={password}
+        email={email}
+        address={address}
+        phone={phone}
+      />
       <NavigationBar />
     </div>
   )

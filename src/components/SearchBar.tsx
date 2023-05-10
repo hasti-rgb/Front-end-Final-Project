@@ -1,10 +1,19 @@
-import { useState } from 'react'
+import { useState, useRef, useContext } from 'react'
+import { ProductsContext } from '../store/product-context'
 
-const SearchBar = () => {
+const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const productsCtx = useContext(ProductsContext)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault()
+    const enteredText = searchInputRef.current!.value
+    if (enteredText.trim().length === 0) {
+      // throw an error
+      return
+    }
 
-  const handleSearch = () => {
-    console.log(`Search term: ${searchTerm}`)
+    productsCtx.searchProduct(enteredText)
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +50,7 @@ const SearchBar = () => {
         className='flex-1 p-2 border-l border-gray-400 focus:outline-none'
         placeholder='Search'
         value={searchTerm}
+        ref={searchInputRef}
         onChange={handleInputChange}
       />
     </div>
