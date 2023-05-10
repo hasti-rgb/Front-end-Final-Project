@@ -1,4 +1,5 @@
 import ShoppingItem from './ShoppingItem'
+import React from 'react'
 
 interface Props {
   shoppingItems: {

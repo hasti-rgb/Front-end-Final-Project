@@ -3,50 +3,14 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './style.css'
 import PageContent from './components/PageContent'
 import ItemsGrid from './components/ItemsGrid'
-import User from './components/User'
-interface ItemData {
-  id: number
-  title: string
-  price: string
-  category: string
-  description: string
-  image: string
-}
+import User from './models/user'
+import Product from './models/product'
 
-interface ShoppingItem {
-  id: number
-  title: string
-  price: string
-  category: string
-  description: string
-  image: string
-}
-interface UserInfo {
-  id: number
-  email: string
-  username: string
-  password: string
-  name: {
-    firstname: string
-    lastname: string
-  }
-  address: {
-    city: string
-    street: string
-    number: number
-    zipcode: string
-    geolocation: {
-      lat: string
-      long: string
-    }
-  }
-  phone: string
-}
 function App() {
-  const [items, setItems] = useState<ShoppingItem[]>([])
+  const [items, setItems] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [user, setUser] = useState<UserInfo | null>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   const fetchItemsHandler = useCallback(async () => {
     setIsLoading(true)
@@ -58,7 +22,7 @@ function App() {
       }
 
       const data: any = await response.json()
-      const transformedMovies: any = data.map((itemData: ItemData) => {
+      const transformedMovies: any = data.map((itemData: Product) => {
         return {
           id: itemData.id,
           title: itemData.title,
@@ -97,9 +61,19 @@ function App() {
   }, [fetchItemsHandler, fetchUserHandler])
 
   let content: any = <p>Found no movies.</p>
-  let userInfo: any = <p>Found no user.</p>
+  let pageContent: any = <p>Found no user.</p>
   if (user !== null) {
-    userInfo = user.name
+    pageContent = (
+      <PageContent
+        id={user.id}
+        email={user.email}
+        username={user.username}
+        password={user.password}
+        name={user.name}
+        address={user.address}
+        phone={user.phone}
+      />
+    )
   }
   if (items.length > 0) {
     content = <ItemsGrid shoppingItems={items} />
@@ -114,7 +88,8 @@ function App() {
   }
   return (
     <React.Fragment>
-      <PageContent name={userInfo} />
+      {/* <PageContent name={user} /> */}
+      <section>{pageContent}</section>
       <section className='container py-3 px-5 grid'>{content}</section>
     </React.Fragment>
   )

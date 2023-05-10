@@ -1,12 +1,26 @@
+import User from '../models/user'
+import React, { useState } from 'react'
+
 const handleUserClick = () => {}
 
-interface UserProps {
-  name: {
-    firstname: string
-    lastname: string
+const Header: React.FC<User> = ({
+  id,
+  name,
+  username,
+  password,
+  email,
+  address,
+  phone,
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  function handleOpenModal() {
+    setIsModalOpen(true)
   }
-}
-const Header: React.FC<UserProps> = ({ name }) => {
+
+  function handleCloseModal() {
+    setIsModalOpen(false)
+  }
   return (
     <div className='container-fluid bg-gray-400 py-3 px-sm-5'>
       <header id='header' className='flex items-center'>
@@ -16,9 +30,9 @@ const Header: React.FC<UserProps> = ({ name }) => {
               src='img_508630.png'
               alt='Profile'
               className='w-12 h-12 object-cover rounded-full'
-              onClick={() => handleUserClick()}
+              onClick={() => handleOpenModal()}
             />
-            <p className='xs:block ms-3'>Hi, {name.firstname}</p>
+            <p className='xs:block ms-3'>Hi, {username}</p>
           </div>
         </div>
         <div className='flex-1 text-center'>

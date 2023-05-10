@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Product from '../models/product'
 interface ShoppingItemProps {
   id: number
   title: string
@@ -11,7 +11,7 @@ interface ShoppingItemProps {
 const handleAddToCart = () => {
   console.log('one item added to cart')
 }
-const ShoppingItem: React.FC<ShoppingItemProps> = ({
+const ShoppingItem: React.FC<Product> = ({
   id,
   title,
   price,
