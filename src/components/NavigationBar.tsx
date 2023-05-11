@@ -1,10 +1,12 @@
 import SearchBar from './SearchBar'
 import CategorySelectBox from './CategorySelectBox'
-
-const NavigationBar = () => {
+interface Props {
+  onSearch: (query: string) => void
+}
+const NavigationBar: React.FC<Props> = (props) => {
   return (
     <div className='grid grid-cols-4 gap-4 py-3 px-5'>
-      <SearchBar />
+      <SearchBar onSearch={props.onSearch} />
       <CategorySelectBox />
     </div>
   )

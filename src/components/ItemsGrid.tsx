@@ -1,7 +1,6 @@
 import ShoppingItem from './ShoppingItem'
-import { ProductsContext } from '../store/product-context'
-import React, { useContext } from 'react'
-import Product from '../models/product'
+import React from 'react'
+
 interface Props {
   shoppingItems: {
     id: number
@@ -13,14 +12,11 @@ interface Props {
   }[]
 }
 
-const ItemsGrid: React.FC = () => {
-  const productsCtx = useContext(ProductsContext)
-
+const ItemsGrid: React.FC<Props> = ({ shoppingItems }) => {
   return (
     <div className='grid  gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 grid-flow-row-dense'>
-      {productsCtx.items.map((item: Product) => (
+      {shoppingItems.map((item: any) => (
         <ShoppingItem
-          key={item.id}
           id={item.id}
           title={item.title}
           price={item.price}
