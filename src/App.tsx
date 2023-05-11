@@ -6,13 +6,13 @@ import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
 import Product from './models/product'
 import ProductsContextProvider from './store/product-context'
-import { ProductsContext } from './store/product-context'
 function App() {
   const [items, setItems] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
-  const productsCtx = useContext(ProductsContext)
+  // const productsCtx = useContext(ProductsContext)
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
 
   const fetchItemsHandler = useCallback(async () => {
     setIsLoading(true)
@@ -62,7 +62,15 @@ function App() {
     fetchItemsHandler()
     fetchUserHandler()
   }, [fetchItemsHandler, fetchUserHandler])
-
+  const handleSearch = (query: string) => {
+    const filteredResults = items.filter(
+      (product) =>
+        product.title.includes(query) ||
+        product.description.includes(query) ||
+        product.category.includes(query)
+    )
+    setFilteredProducts(filteredResults)
+  }
   let content: any = <p>Found no movies.</p>
   let pageContent: any = <p>Found no user.</p>
   if (user !== null) {
@@ -75,11 +83,18 @@ function App() {
         name={user.name}
         address={user.address}
         phone={user.phone}
+        onSearch={handleSearch}
       />
     )
   }
   if (items.length > 0) {
-    content = <ItemsGrid />
+    // productsCtx.loadProductsToList(items)
+    // console.log(productsCtx.items.length)
+    content = (
+      <ItemsGrid
+        shoppingItems={filteredProducts.length > 0 ? filteredProducts : items}
+      />
+    )
   }
 
   if (error) {
@@ -90,11 +105,10 @@ function App() {
     content = <p>Loading...</p>
   }
   return (
-    <ProductsContextProvider items={items}>
+    <ProductsContextProvider>
       {/* <PageContent name={user} /> */}
       <section>{pageContent}</section>
-      {/* <section className='container py-3 px-5 grid'>{content}</section> */}
-      <ItemsGrid />
+      <section className='container py-3 px-5 grid'>{content}</section>
     </ProductsContextProvider>
   )
 }

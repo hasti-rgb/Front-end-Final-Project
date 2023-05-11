@@ -1,24 +1,31 @@
-import { useState, useRef, useContext } from 'react'
-import { ProductsContext } from '../store/product-context'
+import { useState } from 'react'
+interface Props {
+  onSearch: (query: string) => void
+}
+const SearchBar: React.FC<Props> = (props) => {
+  // const [searchTerm, setSearchTerm] = useState('')
+  // const productsCtx = useContext(ProductsContext)
+  // const searchInputRef = useRef<HTMLInputElement>(null)
+  const [query, setQuery] = useState('')
 
-const SearchBar: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const productsCtx = useContext(ProductsContext)
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const handleSearch = (event: React.FormEvent) => {
-    event.preventDefault()
-    const enteredText = searchInputRef.current!.value
-    if (enteredText.trim().length === 0) {
-      // throw an error
-      return
-    }
+  // const handleSearch = (event: React.FormEvent) => {
+  //   event.preventDefault()
+  //   const enteredText = searchInputRef.current!.value
+  //   if (enteredText.trim().length === 0) {
+  //     // throw an error
+  //     return
+  //   }
 
-    productsCtx.searchProduct(enteredText)
+  //   productsCtx.searchProduct(enteredText)
+  // }
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = event.target.value
+    setQuery(newQuery)
+    props.onSearch(newQuery)
   }
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-  }
+  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value)
+  // }
 
   return (
     <div className='flex items-center border border-gray-400 rounded'>
@@ -26,7 +33,6 @@ const SearchBar: React.FC = () => {
         id='search-btn'
         type='button'
         className='flex-none p-2  border-gray-400'
-        onClick={handleSearch}
       >
         <div className='inset-y-0 left-0 flex items-center  pointer-events-none'>
           <svg
@@ -49,9 +55,8 @@ const SearchBar: React.FC = () => {
         id='search-form'
         className='flex-1 p-2 border-l border-gray-400 focus:outline-none'
         placeholder='Search'
-        value={searchTerm}
-        ref={searchInputRef}
-        onChange={handleInputChange}
+        value={query}
+        onChange={() => handleSearch}
       />
     </div>
   )
