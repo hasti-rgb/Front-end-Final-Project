@@ -7,7 +7,7 @@ import Product from './models/product'
 import CartPage from './components/Cart/CartPage'
 import Header from './components/Header'
 import NavigationBar from './components/NavigationBar'
-
+import UserDetailPage from './components/User/userDetailPage'
 function App() {
   const [items, setItems] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -135,7 +135,7 @@ function App() {
 
   let content: any = <p>Found no movies.</p>
   let pageContent: any = <p>Found no user.</p>
-
+  let userPage: any = <p>Found no user. </p>
   if (user !== null) {
     pageContent = (
       // <PageContent
@@ -147,6 +147,7 @@ function App() {
 
       <Header user={user} cartItems={cartItems} getTotalItems={getTotalItems} />
     )
+    userPage = <UserDetailPage user={user} />
   }
 
   //----------------------------------------------------------------------------------
@@ -209,6 +210,7 @@ function App() {
               </React.Fragment>
             }
           />
+          <Route path='/user-info' element={userPage} />
         </Routes>
       </div>
     </Router>
