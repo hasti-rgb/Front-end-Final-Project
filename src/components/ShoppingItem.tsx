@@ -1,9 +1,8 @@
 import React from 'react'
 import Product from '../models/product'
-import CartItemType from '../models/CartItemType'
 interface ShoppingItemProps {
-  item: CartItemType
-  handleAddToCart: (clickedItem: CartItemType) => void
+  item: Product
+  handleAddToCart: (clickedItem: Product) => void
 }
 // const handleAddToCart = () => {
 //   console.log('one item added to cart')

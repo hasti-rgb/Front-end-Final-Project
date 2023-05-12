@@ -2,12 +2,12 @@ import Header from './Header'
 import NavigationBar from './NavigationBar'
 import User from '../models/user'
 import React from 'react'
-import CartItemType from '../models/CartItemType'
+import Product from '../models/product'
 interface Props {
   user: User
   onSearch: (query: string) => void
-  cartItems: CartItemType[]
-  getTotalItems: (items: CartItemType[]) => any
+  cartItems: Product[]
+  getTotalItems: (items: Product[]) => any
 }
 const PageContent: React.FC<Props> = ({
   user,

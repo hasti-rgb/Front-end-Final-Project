@@ -1,9 +1,9 @@
 import React from 'react'
 import CartItem from './CartItem'
-import CartItemType from '../../models/CartItemType'
+import Product from '../../models/product'
 interface CartPageProps {
-  cartItems: CartItemType[]
-  addToCart: (clickedItem: CartItemType) => void
+  cartItems: Product[]
+  addToCart: (clickedItem: Product) => void
   removeFromCart: (id: number) => void
 }
 
@@ -13,7 +13,7 @@ const CartPage: React.FC<CartPageProps> = ({
   removeFromCart,
 }) => {
   //   const total = cartItems.reduce((acc, curr) => acc + curr.totalPrice, 0)
-  const calculateTotal = (items: CartItemType[]) =>
+  const calculateTotal = (items: Product[]) =>
     items.reduce((ack: number, item) => ack + item.quantity * item.price, 0)
   return (
     <div className='container mx-auto'>
