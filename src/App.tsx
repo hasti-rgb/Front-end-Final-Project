@@ -1,28 +1,20 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import React, { useState, useEffect, useCallback } from 'react'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import './style.css'
 import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
 import Product from './models/product'
-<<<<<<< HEAD
 import CartPage from './components/Cart/CartPage'
 import Header from './components/Header'
 import NavigationBar from './components/NavigationBar'
 import UserDetailPage from './components/User/userDetailPage'
-import { userInfo } from 'os'
-=======
-
->>>>>>> 4815fea75e48fc298aceaa16b8e0a410b414bd1b
 function App() {
   const [items, setItems] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
-<<<<<<< HEAD
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>([])
-=======
->>>>>>> 4815fea75e48fc298aceaa16b8e0a410b414bd1b
 
   //-----------------------get products from server-----------------------------------
   const fetchItemsHandler = useCallback(async () => {
@@ -143,7 +135,6 @@ function App() {
 
   let content: any = <p>Found no movies.</p>
   let pageContent: any = <p>Found no user.</p>
-<<<<<<< HEAD
   let userPage: any = <p>Found no user. </p>
   if (user !== null) {
     pageContent = (
@@ -157,20 +148,6 @@ function App() {
       <Header user={user} cartItems={cartItems} getTotalItems={getTotalItems} />
     )
     userPage = <UserDetailPage user={user} />
-=======
-  if (user !== null) {
-    pageContent = (
-      <PageContent
-        id={user.id}
-        email={user.email}
-        username={user.username}
-        password={user.password}
-        name={user.name}
-        address={user.address}
-        phone={user.phone}
-      />
-    )
->>>>>>> 4815fea75e48fc298aceaa16b8e0a410b414bd1b
   }
 
   //----------------------------------------------------------------------------------
@@ -197,7 +174,6 @@ function App() {
   //----------------------------------------------------------------------------------
 
   return (
-<<<<<<< HEAD
     // <React.Fragment>
     //   <section>{pageContent}</section>
     //   <section className='container py-3 px-5 grid'>{content}</section>
@@ -238,13 +214,6 @@ function App() {
         </Routes>
       </div>
     </Router>
-=======
-    <React.Fragment>
-      {/* <PageContent name={user} /> */}
-      <section>{pageContent}</section>
-      <section className='container py-3 px-5 grid'>{content}</section>
-    </React.Fragment>
->>>>>>> 4815fea75e48fc298aceaa16b8e0a410b414bd1b
   )
 }
 
