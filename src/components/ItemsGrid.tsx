@@ -1,29 +1,17 @@
 import ShoppingItem from './ShoppingItem'
 import React from 'react'
-
+import Product from '../models/product'
+import CartItemType from '../models/CartItemType'
 interface Props {
-  shoppingItems: {
-    id: number
-    title: string
-    price: string
-    category: string
-    description: string
-    image: string
-  }[]
+  shoppingItems: Product[]
+  addToCart: (clickedItem: CartItemType) => void
 }
 
-const ItemsGrid: React.FC<Props> = ({ shoppingItems }) => {
+const ItemsGrid: React.FC<Props> = ({ shoppingItems, addToCart }) => {
   return (
     <div className='grid  gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 grid-flow-row-dense'>
       {shoppingItems.map((item: any) => (
-        <ShoppingItem
-          id={item.id}
-          title={item.title}
-          price={item.price}
-          category={item.category}
-          description={item.description}
-          image={item.image}
-        />
+        <ShoppingItem item={item} handleAddToCart={addToCart} />
       ))}
     </div>
   )
