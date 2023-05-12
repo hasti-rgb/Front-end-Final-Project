@@ -21,9 +21,11 @@ const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
               className='w-12 h-12 object-cover rounded-full '
               onClick={() => handleUserClick()}
             />
-            <p className='xs:block ms-3 hover:border border-b-indigo-500'>
-              Hi, {user.username}
-            </p>
+            <Link to='/user-info'>
+              <p className='xs:block ms-3 hover:border border-b-indigo-500'>
+                Hi, {user.name.firstname}
+              </p>
+            </Link>
           </div>
         </div>
         <div className='flex-1 text-center'>
