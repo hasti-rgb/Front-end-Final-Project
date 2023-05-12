@@ -1,5 +1,5 @@
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 import React, { useState, useEffect, useCallback, useContext } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './style.css'
 import PageContent from './components/PageContent'
 import ItemsGrid from './components/ItemsGrid'
@@ -14,6 +14,7 @@ function App() {
   const [user, setUser] = useState<User | null>(null)
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>([])
+
   //-----------------------get products from server-----------------------------------
   const fetchItemsHandler = useCallback(async () => {
     setIsLoading(true)
@@ -109,7 +110,7 @@ function App() {
       prev.reduce((ack, item) => {
         if (item.id === id) {
           if (item.quantity === 1) return ack
-          return [...ack, { ...item, amount: item.quantity - 1 }]
+          return [...ack, { ...item, quantity: item.quantity - 1 }]
         } else {
           return [...ack, item]
         }
@@ -156,15 +157,39 @@ function App() {
   //----------------------------------------------------------------------------------
 
   return (
-    <React.Fragment>
-      <section>{pageContent}</section>
-      <section className='container py-3 px-5 grid'>{content}</section>
-      {/* <CartPage
-        addToCart={handleAddToCart}
-        cartItems={cartItems}
-        removeFromCart={handleRemoveFromCart}
-      /> */}
-    </React.Fragment>
+    // <React.Fragment>
+    //   <section>{pageContent}</section>
+    //   <section className='container py-3 px-5 grid'>{content}</section>
+    //   {/* <CartPage
+    //     addToCart={handleAddToCart}
+    //     cartItems={cartItems}
+    //     removeFromCart={handleRemoveFromCart}
+    //   /> */}
+    // </React.Fragment>
+
+    <Router>
+      <div>
+        <section>{pageContent}</section>
+        <Routes>
+          <Route
+            path='/cart'
+            element={
+              <CartPage
+                addToCart={handleAddToCart}
+                cartItems={cartItems}
+                removeFromCart={handleRemoveFromCart}
+              />
+            }
+          />
+          <Route
+            path='/'
+            element={
+              <section className='container py-3 px-5 grid'>{content}</section>
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
