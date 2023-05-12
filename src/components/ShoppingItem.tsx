@@ -31,7 +31,7 @@ const ShoppingItem: React.FC<ShoppingItemProps> = ({
           <button
             type='button'
             onClick={() => handleAddToCart(item)}
-            className='btn add-btn px-3 py-2 bg-blue-600 text-gray-50'
+            className='btn add-btn px-5 py-2 bg-blue-600 text-gray-50 hover:bg-blue-400'
           >
             Add to cart
           </button>
