@@ -6,7 +6,6 @@ import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
 import Product from './models/product'
 import ProductsContextProvider from './store/product-context'
-import CartItemType from './models/CartItemType'
 import CartPage from './components/Cart/CartPage'
 function App() {
   const [items, setItems] = useState<Product[]>([])
@@ -14,7 +13,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
-  const [cartItems, setCartItems] = useState<CartItemType[]>([])
+  const [cartItems, setCartItems] = useState<Product[]>([])
   //-----------------------get products from server-----------------------------------
   const fetchItemsHandler = useCallback(async () => {
     setIsLoading(true)
@@ -79,24 +78,30 @@ function App() {
     setFilteredProducts(filteredResults)
   }
   //-------------------------------handle cart----------------------------------------
-  const getTotalItems = (items: CartItemType[]) =>
+  const getTotalItems = (items: Product[]) =>
     items.reduce((ack: number, item) => ack + item.quantity, 0)
   //----------------------------------------------------------------------------------
-  const handleAddToCart = (clickedItem: CartItemType) => {
+  const handleAddToCart = (clickedItem: Product) => {
     setCartItems((prev) => {
       // 1. Is the item already added in the cart?
       const isItemInCart = prev.find((item) => item.id === clickedItem.id)
-
+      console.log('isItemInCart: ' + isItemInCart?.title)
+      // const qty: number = isItemInCart ? isItemInCart.quantity + 1 : 1
       if (isItemInCart) {
+        console.log('isItemInCart qty: ' + isItemInCart.quantity)
         return prev.map((item) =>
           item.id === clickedItem.id
-            ? { ...item, amount: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       }
+      console.log('clickedItem: ' + clickedItem.title)
+
       // First time the item is added
-      return [...prev, { ...clickedItem, amount: 1 }]
+      return [...prev, { ...clickedItem, quantity: 1 }]
     })
+    console.log('cart item length: ' + cartItems.length)
+    console.log('clickedItem amount: ' + clickedItem.quantity)
   }
   //----------------------------------------------------------------------------------
   const handleRemoveFromCart = (id: number) => {
@@ -108,7 +113,7 @@ function App() {
         } else {
           return [...ack, item]
         }
-      }, [] as CartItemType[])
+      }, [] as Product[])
     )
   }
   //----------------------------------------------------------------------------------

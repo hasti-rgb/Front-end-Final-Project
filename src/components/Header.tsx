@@ -1,10 +1,10 @@
 import User from '../models/user'
 import React, { useState } from 'react'
-import CartItemType from '../models/CartItemType'
+import Product from '../models/product'
 interface HeaderProps {
   user: User
-  cartItems: CartItemType[]
-  getTotalItems: (items: CartItemType[]) => any
+  cartItems: Product[]
+  getTotalItems: (items: Product[]) => any
 }
 const handleUserClick = () => {}
 

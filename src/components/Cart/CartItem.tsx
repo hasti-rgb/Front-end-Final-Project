@@ -1,9 +1,8 @@
 import React from 'react'
-import CartItemType from '../../models/CartItemType'
-
+import Product from '../../models/product'
 interface CartItemProps {
-  item: CartItemType
-  addToCart: (clickedItem: CartItemType) => void
+  item: Product
+  addToCart: (clickedItem: Product) => void
   removeFromCart: (id: number) => void
 }
 
@@ -14,7 +13,7 @@ const CartItem: React.FC<CartItemProps> = ({
 }) => {
   return (
     <tr>
-      <td>{item.number}</td>
+      <td>{item.id}</td>
       <td>{item.title}</td>
       <td>{item.description}</td>
       <td>

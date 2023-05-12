@@ -1,15 +1,16 @@
 class Product {
   id: number
   title: string
-  price: string
+  price: number
   category: string
   description: string
   image: string
+  quantity: number
 
   constructor(
     id: number,
     title: string,
-    price: string,
+    price: number,
     category: string,
     description: string,
     image: string
@@ -20,6 +21,7 @@ class Product {
     this.category = category
     this.description = description
     this.image = image
+    this.quantity = 0
   }
 }
 

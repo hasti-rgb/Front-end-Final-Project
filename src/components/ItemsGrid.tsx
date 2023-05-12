@@ -1,10 +1,9 @@
 import ShoppingItem from './ShoppingItem'
 import React from 'react'
 import Product from '../models/product'
-import CartItemType from '../models/CartItemType'
 interface Props {
   shoppingItems: Product[]
-  addToCart: (clickedItem: CartItemType) => void
+  addToCart: (clickedItem: Product) => void
 }
 
 const ItemsGrid: React.FC<Props> = ({ shoppingItems, addToCart }) => {
