@@ -2,25 +2,27 @@ import Header from './Header'
 import NavigationBar from './NavigationBar'
 import User from '../models/user'
 import React from 'react'
+import CartItemType from '../models/CartItemType'
 interface Props {
+  user: User
   onSearch: (query: string) => void
+  cartItems: CartItemType[]
+  getTotalItems: (items: CartItemType[]) => any
 }
-const PageContent: React.FC<User & Props> = (
-  { id, name, username, password, email, address, phone },
-  props
-) => {
+const PageContent: React.FC<Props> = ({
+  user,
+  onSearch,
+  cartItems,
+  getTotalItems,
+}) => {
   return (
     <div>
       <Header
-        id={id}
-        name={name}
-        username={username}
-        password={password}
-        email={email}
-        address={address}
-        phone={phone}
+        user={user}
+        cartItems={cartItems}
+        getTotalItems={() => getTotalItems(cartItems)}
       />
-      <NavigationBar onSearch={props.onSearch} />
+      <NavigationBar onSearch={onSearch} />
     </div>
   )
 }

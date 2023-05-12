@@ -1,17 +1,14 @@
 import User from '../models/user'
 import React, { useState } from 'react'
-
+import CartItemType from '../models/CartItemType'
+interface HeaderProps {
+  user: User
+  cartItems: CartItemType[]
+  getTotalItems: (items: CartItemType[]) => any
+}
 const handleUserClick = () => {}
 
-const Header: React.FC<User> = ({
-  id,
-  name,
-  username,
-  password,
-  email,
-  address,
-  phone,
-}) => {
+const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
   return (
     <div className='container-fluid bg-gray-400 py-3 px-sm-5'>
       <header id='header' className='flex items-center'>
@@ -23,7 +20,7 @@ const Header: React.FC<User> = ({
               className='w-12 h-12 object-cover rounded-full'
               onClick={() => handleUserClick()}
             />
-            <p className='xs:block ms-3'>Hi, {username}</p>
+            <p className='xs:block ms-3'>Hi, {user.username}</p>
           </div>
         </div>
         <div className='flex-1 text-center'>
@@ -37,7 +34,7 @@ const Header: React.FC<User> = ({
           <div className='p-2 flex justify-end items-center'>
             <p className='mx-1 my-2'>Cart</p>
             <div className='rounded-full bg-red-500 text-white w-8 h-8 flex justify-center items-center'>
-              0
+              {getTotalItems(cartItems)}
             </div>
           </div>
         </div>
