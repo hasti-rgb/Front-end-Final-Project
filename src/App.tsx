@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import './style.css'
-import PageContent from './components/PageContent'
 import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
 import Product from './models/product'
-import ProductsContextProvider from './store/product-context'
 import CartPage from './components/Cart/CartPage'
+import Header from './components/Header'
+import NavigationBar from './components/NavigationBar'
+
 function App() {
   const [items, setItems] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -49,7 +50,7 @@ function App() {
     setError(null)
 
     try {
-      const response = await fetch('https://fakestoreapi.com/users/5')
+      const response = await fetch('https://fakestoreapi.com/users/2')
       if (!response.ok) {
         throw new Error('Something went wrong!')
       }
@@ -105,12 +106,25 @@ function App() {
     console.log('clickedItem amount: ' + clickedItem.quantity)
   }
   //----------------------------------------------------------------------------------
-  const handleRemoveFromCart = (id: number) => {
+  const handleDecrease = (id: number) => {
     setCartItems((prev) =>
       prev.reduce((ack, item) => {
         if (item.id === id) {
           if (item.quantity === 1) return ack
           return [...ack, { ...item, quantity: item.quantity - 1 }]
+        } else {
+          return [...ack, item]
+        }
+      }, [] as Product[])
+    )
+  }
+  //----------------------------------------------------------------------------------
+  const handleRemoveFromCart = (id: number) => {
+    setCartItems((prev) =>
+      prev.reduce((ack, item) => {
+        if (item.id === id) {
+          return ack
+          // return [...ack, { ...item, quantity: item.quantity - 1 }]
         } else {
           return [...ack, item]
         }
@@ -124,12 +138,14 @@ function App() {
 
   if (user !== null) {
     pageContent = (
-      <PageContent
-        user={user}
-        onSearch={handleSearch}
-        cartItems={cartItems}
-        getTotalItems={getTotalItems}
-      />
+      // <PageContent
+      //   user={user}
+      //   onSearch={handleSearch}
+      //   cartItems={cartItems}
+      //   getTotalItems={getTotalItems}
+      // />
+
+      <Header user={user} cartItems={cartItems} getTotalItems={getTotalItems} />
     )
   }
 
@@ -175,16 +191,22 @@ function App() {
             path='/cart'
             element={
               <CartPage
-                addToCart={handleAddToCart}
+                increaseProductQty={handleAddToCart}
                 cartItems={cartItems}
-                removeFromCart={handleRemoveFromCart}
+                decreaceProductQty={handleDecrease}
+                handleRemoveFromCart={handleRemoveFromCart}
               />
             }
           />
           <Route
             path='/'
             element={
-              <section className='container py-3 px-5 grid'>{content}</section>
+              <React.Fragment>
+                <NavigationBar onSearch={handleSearch} />
+                <section className='container py-3 px-5 grid'>
+                  {content}
+                </section>
+              </React.Fragment>
             }
           />
         </Routes>
