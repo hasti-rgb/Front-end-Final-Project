@@ -3,21 +3,23 @@ import CartItem from './CartItem'
 import Product from '../../models/product'
 interface CartPageProps {
   cartItems: Product[]
-  addToCart: (clickedItem: Product) => void
-  removeFromCart: (id: number) => void
+  increaseProductQty: (clickedItem: Product) => void
+  decreaceProductQty: (id: number) => void
+  handleRemoveFromCart: (id: number) => void
 }
 
 const CartPage: React.FC<CartPageProps> = ({
   cartItems,
-  addToCart,
-  removeFromCart,
+  increaseProductQty,
+  decreaceProductQty,
+  handleRemoveFromCart,
 }) => {
   //   const total = cartItems.reduce((acc, curr) => acc + curr.totalPrice, 0)
   const calculateTotal = (items: Product[]) =>
     items.reduce((ack: number, item) => ack + item.quantity * item.price, 0)
   return (
     <div className='container mx-auto'>
-      <div className='px-5'>
+      <div className='px-5 pt-10'>
         <table className='table-auto w-full px-5 border-collapse border border-slate-400 '>
           <thead className='bg-gray-400'>
             <tr>
@@ -35,8 +37,9 @@ const CartPage: React.FC<CartPageProps> = ({
               <CartItem
                 key={index}
                 item={item}
-                addToCart={addToCart}
-                removeFromCart={removeFromCart}
+                increaseProductQty={increaseProductQty}
+                decreaceProductQty={decreaceProductQty}
+                handleRemoveFromCart={handleRemoveFromCart}
                 index={index}
               />
             ))}
