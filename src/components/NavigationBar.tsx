@@ -2,12 +2,14 @@ import SearchBar from './SearchBar'
 import CategorySelectBox from './CategorySelectBox'
 interface Props {
   onSearch: (query: string) => void
+  categories: string[]
+  onfilter: (query: string) => void
 }
-const NavigationBar: React.FC<Props> = (props) => {
+const NavigationBar: React.FC<Props> = ({ onSearch, categories, onfilter }) => {
   return (
-    <div className='grid grid-cols-4 gap-4 py-3 px-5'>
-      <SearchBar onSearch={props.onSearch} />
-      <CategorySelectBox />
+    <div className='grid grid-cols-3 gap-4 py-5 px-5 my-5'>
+      <SearchBar onSearch={onSearch} />
+      <CategorySelectBox categories={categories} onfilter={onfilter} />
     </div>
   )
 }
