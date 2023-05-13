@@ -1,20 +1,15 @@
-import { useState } from 'react'
-
 interface Props {
   categories: string[]
   onfilter: (query: string) => void
 }
 
 const CategorySelectBox: React.FC<Props> = ({ categories, onfilter }) => {
-  const [query, setQuery] = useState('')
-
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newQuery = event.target.value
-    setQuery(newQuery)
     onfilter(newQuery)
   }
   return (
-    <div className='px-3 '>
+    <div className='my-5 px-7 xl:px-3 '>
       <select
         onChange={handleFilter}
         id='select'

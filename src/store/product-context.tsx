@@ -1,6 +1,5 @@
 import React, { useState, PropsWithChildren } from 'react'
 import Product from '../models/product'
-import ItemsGrid from '../components/ItemsGrid'
 type ProductsContextObj = {
   items: Product[]
 

@@ -1,5 +1,4 @@
 import User from '../models/user'
-import React, { useState } from 'react'
 import Product from '../models/product'
 import { Link } from 'react-router-dom'
 interface HeaderProps {
@@ -11,18 +10,18 @@ const handleUserClick = () => {}
 
 const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
   return (
-    <div className='container bg-gray-200 px-8 py-3  px-sm-5'>
+    <div className='w-full bg-gray-200 px-4 sm:px-8 py-3  px-sm-5'>
       <header id='header' className='flex items-center'>
         <div className='flex-1 text-start mb-lg-0'>
           <div className='flex items-center '>
             <img
               src='img_508630.png'
               alt='Profile'
-              className='w-12 h-12 object-cover rounded-full '
+              className='w-8 h-8 sm:w-12 sm:h-12 object-cover rounded-full '
               onClick={() => handleUserClick()}
             />
             <Link to='/user-info'>
-              <p className='xs:block ms-3 hover:border border-b-indigo-500'>
+              <p className='md:text-lg xs:block ms-1 sm:ms-3 hover:border border-b-indigo-500'>
                 Hi, {user.name.firstname}
               </p>
             </Link>
@@ -31,7 +30,10 @@ const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
         <div className='flex-1 text-center'>
           <Link to='/'>
             <div className='logo-container px-lg-5 hover:bg-white'>
-              <p id='logo' className='logo py-3 mx border border-black'>
+              <p
+                id='logo'
+                className='md:text-lg logo py-3 mx border border-black'
+              >
                 Online Shop
               </p>
             </div>
@@ -41,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
           <Link to='/cart'>
             <div className='p-2 flex justify-end items-center '>
               <div className='min-w-fit flex items-center hover:border border-b-indigo-500'>
-                <p className='mx-1 my-2 text-lg '>Cart</p>
+                <p className='mx-1 my-2 md:text-lg '>Cart</p>
                 <div className='rounded-full bg-red-500 text-white w-6 h-6 flex justify-center items-center'>
                   {getTotalItems(cartItems)}
                 </div>

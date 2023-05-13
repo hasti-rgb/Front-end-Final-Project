@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { useState, useEffect, useCallback } from 'react'
 import './style.css'
 import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
@@ -224,9 +224,7 @@ function App() {
                   categories={categories}
                   onfilter={handleFilter}
                 />
-                <section className='container py-3 px-5 grid'>
-                  {content}
-                </section>
+                <section className='w-full py-3 px-5 '>{content}</section>
               </React.Fragment>
             }
           />

@@ -11,7 +11,7 @@ const ShoppingItem: React.FC<ShoppingItemProps> = ({
 }) => {
   return (
     <div className='p-3 flex flex-col justify-center mb-4 border shadow'>
-      <div className='relative h-52'>
+      <div className='relative h-72 lg:h-52'>
         <img
           className='absolute inset-0 object-contain w-full h-full'
           src={item.image}
@@ -19,7 +19,9 @@ const ShoppingItem: React.FC<ShoppingItemProps> = ({
         />
       </div>
       <div className=' p-4 h-72'>
-        <h3 className='my-5 text-lg font-medium text-gray-900'>{item.title}</h3>{' '}
+        <h3 className='my-5 xl:text-lg font-medium text-gray-900 line-clamp-1 xl:line-clamp-2'>
+          {item.title}
+        </h3>{' '}
         <p className='text-start break-words my-2 mt-2 text-base text-gray-500 line-clamp-6'>
           {item.description}
         </p>
@@ -29,7 +31,7 @@ const ShoppingItem: React.FC<ShoppingItemProps> = ({
         <button
           type='button'
           onClick={() => handleAddToCart(item)}
-          className=' px-5 py-2 bg-blue-600 text-gray-50 hover:bg-blue-400'
+          className='p-2  xl:px-5 xl:py-2 bg-blue-600 text-gray-50 hover:bg-blue-400'
         >
           Add to cart
         </button>

@@ -30,8 +30,8 @@ const SearchBar: React.FC<Props> = (props) => {
   // }
 
   return (
-    <div className='px-3'>
-      <div className='flex items-center  border border-solid rounded-full border-black '>
+    <div className='px-6 xl:px-3'>
+      <div className='flex items-center  border border-solid rounded-full border-black sm:my-5 '>
         <button id='search-btn' type='button' className='flex-none p-2  '>
           <div className='inset-y-0 left-0 flex items-center  pointer-events-none'>
             <svg
@@ -52,7 +52,7 @@ const SearchBar: React.FC<Props> = (props) => {
         <input
           type='search'
           id='search-form'
-          className='w-5/6 p-2  focus:outline-none'
+          className='w-5/6 xl:p-2  focus:outline-none'
           placeholder='Search'
           value={query}
           onChange={handleSearch}

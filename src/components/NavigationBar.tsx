@@ -7,7 +7,7 @@ interface Props {
 }
 const NavigationBar: React.FC<Props> = ({ onSearch, categories, onfilter }) => {
   return (
-    <div className='grid grid-cols-3 gap-4 py-5 px-5 my-5'>
+    <div className='grid lg:grid-cols-4 xl:grid-cols-3 xl:gap-4 xl:py-5 xl:px-5 my-5'>
       <SearchBar onSearch={onSearch} />
       <CategorySelectBox categories={categories} onfilter={onfilter} />
     </div>
