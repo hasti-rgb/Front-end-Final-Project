@@ -4,40 +4,36 @@ interface ShoppingItemProps {
   item: Product
   handleAddToCart: (clickedItem: Product) => void
 }
-// const handleAddToCart = () => {
-//   console.log('one item added to cart')
-// }
+
 const ShoppingItem: React.FC<ShoppingItemProps> = ({
   item,
   handleAddToCart,
 }) => {
   return (
-    <div className='container  mb-4 border shadow'>
-      {/* <div className='  justify-center mb-4 border shadow '> */}
-      <div className='container items-center  h-1/3'>
+    <div className='p-3 flex flex-col justify-center mb-4 border shadow'>
+      <div className='relative h-52'>
         <img
+          className='absolute inset-0 object-contain w-full h-full'
           src={item.image}
-          alt='cosmetic'
-          className='w-full h-full object-contain	'
+          alt={item.title}
         />
       </div>
-      <div className='container h-2/3 p-4'>
-        <p className='my-3 font-bold line-clamp-1	text-lg'>{item.title}</p>
-        <p className='text-start line-clamp-3	text-clip overflow-hidden my-2 h-1/3 '>
+      <div className=' p-4 h-72'>
+        <h3 className='my-5 text-lg font-medium text-gray-900'>{item.title}</h3>{' '}
+        <p className='text-start break-words my-2 mt-2 text-base text-gray-500 line-clamp-6'>
           {item.description}
         </p>
-        <div className='flex flex-row justify-between content-center mt-4'>
-          <p>price {item.price}$</p>
-          <button
-            type='button'
-            onClick={() => handleAddToCart(item)}
-            className='btn add-btn px-3 py-2 bg-blue-600 text-gray-50 hover:bg-blue-400'
-          >
-            Add to cart
-          </button>
-        </div>
       </div>
-      {/* </div> */}
+      <div className='flex flex-row justify-between content-center mt-4 px-3'>
+        <p>price {item.price}$</p>
+        <button
+          type='button'
+          onClick={() => handleAddToCart(item)}
+          className=' px-5 py-2 bg-blue-600 text-gray-50 hover:bg-blue-400'
+        >
+          Add to cart
+        </button>
+      </div>
     </div>
   )
 }

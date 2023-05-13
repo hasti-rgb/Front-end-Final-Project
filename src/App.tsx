@@ -10,6 +10,7 @@ import NavigationBar from './components/NavigationBar'
 import UserDetailPage from './components/User/userDetailPage'
 function App() {
   const [items, setItems] = useState<Product[]>([])
+  const [categories, setCategories] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
@@ -27,7 +28,7 @@ function App() {
       }
 
       const data: any = await response.json()
-      const transformedMovies: any = data.map((itemData: Product) => {
+      const transformedItems: any = data.map((itemData: Product) => {
         return {
           id: itemData.id,
           title: itemData.title,
@@ -38,7 +39,14 @@ function App() {
         }
       })
       //--------------------------------------------------------------------------
-      setItems(transformedMovies)
+      setItems(transformedItems)
+
+      const categories = new Set<string>() // create a new set to store unique categories
+      transformedItems.forEach((item: Product) => {
+        categories.add(item.category) // add the category to the set
+      })
+      const uniqueCategories = Array.from(categories)
+      setCategories(uniqueCategories)
     } catch (error: any) {
       setError(error.message)
     }
@@ -50,7 +58,7 @@ function App() {
     setError(null)
 
     try {
-      const response = await fetch('https://fakestoreapi.com/users/2')
+      const response = await fetch('https://fakestoreapi.com/users/7')
       if (!response.ok) {
         throw new Error('Something went wrong!')
       }
@@ -73,10 +81,18 @@ function App() {
   const handleSearch = (query: string) => {
     const filteredResults = items.filter(
       (product) =>
-        product.title.includes(query) ||
-        product.description.includes(query) ||
-        product.category.includes(query)
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase())
     )
+    setFilteredProducts(filteredResults)
+  }
+  //----------------------------------------------------------------------------------
+  const handleFilter = (category: string) => {
+    const filteredResults = items.filter(
+      (product) => product.category.toLowerCase() === category.toLowerCase()
+    )
+    console.log('filteredResults lnegth =>' + filteredResults.length)
     setFilteredProducts(filteredResults)
   }
   //-------------------------------handle cart----------------------------------------
@@ -203,7 +219,11 @@ function App() {
             path='/'
             element={
               <React.Fragment>
-                <NavigationBar onSearch={handleSearch} />
+                <NavigationBar
+                  onSearch={handleSearch}
+                  categories={categories}
+                  onfilter={handleFilter}
+                />
                 <section className='container py-3 px-5 grid'>
                   {content}
                 </section>
