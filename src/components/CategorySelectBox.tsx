@@ -1,3 +1,4 @@
+import React from 'react'
 interface Props {
   categories: string[]
   onfilter: (query: string) => void
@@ -26,4 +27,4 @@ const CategorySelectBox: React.FC<Props> = ({ categories, onfilter }) => {
   )
 }
 
-export default CategorySelectBox
+export default React.memo(CategorySelectBox)

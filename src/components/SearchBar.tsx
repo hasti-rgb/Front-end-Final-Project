@@ -5,29 +5,13 @@ interface Props {
   onSearch: (query: string) => void
 }
 const SearchBar: React.FC<Props> = (props) => {
-  // const [searchTerm, setSearchTerm] = useState('')
-  // const productsCtx = useContext(ProductsContext)
-  // const searchInputRef = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
 
-  // const handleSearch = (event: React.FormEvent) => {
-  //   event.preventDefault()
-  //   const enteredText = searchInputRef.current!.value
-  //   if (enteredText.trim().length === 0) {
-  //     // throw an error
-  //     return
-  //   }
-
-  //   productsCtx.searchProduct(enteredText)
-  // }
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = event.target.value
     setQuery(newQuery)
     props.onSearch(newQuery)
   }
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchTerm(event.target.value)
-  // }
 
   return (
     <div className='px-6 xl:px-3'>

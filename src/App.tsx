@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import './style.css'
 import ItemsGrid from './components/ItemsGrid'
 import User from './models/user'
@@ -78,51 +78,51 @@ function App() {
   }, [fetchItemsHandler, fetchUserHandler])
   //----------------------------------------------------------------------------------
 
-  const handleSearch = (query: string) => {
-    const filteredResults = items.filter(
-      (product) =>
-        product.title.toLowerCase().includes(query.toLowerCase()) ||
-        product.description.toLowerCase().includes(query.toLowerCase()) ||
-        product.category.toLowerCase().includes(query.toLowerCase())
-    )
-    setFilteredProducts(filteredResults)
-  }
+  const handleSearch = useCallback(
+    (query: string) => {
+      const filteredResults = items.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query.toLowerCase()) ||
+          product.description.toLowerCase().includes(query.toLowerCase()) ||
+          product.category.toLowerCase().includes(query.toLowerCase())
+      )
+      setFilteredProducts(filteredResults)
+    },
+    [items]
+  )
   //----------------------------------------------------------------------------------
-  const handleFilter = (category: string) => {
-    const filteredResults = items.filter(
-      (product) => product.category.toLowerCase() === category.toLowerCase()
-    )
-    console.log('filteredResults lnegth =>' + filteredResults.length)
-    setFilteredProducts(filteredResults)
-  }
+  const handleFilter = useCallback(
+    (category: string) => {
+      const filteredResults = items.filter(
+        (product) => product.category.toLowerCase() === category.toLowerCase()
+      )
+      setFilteredProducts(filteredResults)
+    },
+    [items]
+  )
   //-------------------------------handle cart----------------------------------------
-  const getTotalItems = (items: Product[]) =>
-    items.reduce((ack: number, item) => ack + item.quantity, 0)
+  const getTotalItems = useCallback(
+    (items: Product[]) =>
+      items.reduce((ack: number, item) => ack + item.quantity, 0),
+    []
+  )
+
   //----------------------------------------------------------------------------------
-  const handleAddToCart = (clickedItem: Product) => {
+  const handleAddToCart = useCallback((clickedItem: Product) => {
     setCartItems((prev) => {
-      // 1. Is the item already added in the cart?
       const isItemInCart = prev.find((item) => item.id === clickedItem.id)
-      console.log('isItemInCart: ' + isItemInCart?.title)
-      // const qty: number = isItemInCart ? isItemInCart.quantity + 1 : 1
       if (isItemInCart) {
-        console.log('isItemInCart qty: ' + isItemInCart.quantity)
         return prev.map((item) =>
           item.id === clickedItem.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       }
-      console.log('clickedItem: ' + clickedItem.title)
-
-      // First time the item is added
       return [...prev, { ...clickedItem, quantity: 1 }]
     })
-    console.log('cart item length: ' + cartItems.length)
-    console.log('clickedItem amount: ' + clickedItem.quantity)
-  }
+  }, [])
   //----------------------------------------------------------------------------------
-  const handleDecrease = (id: number) => {
+  const handleDecrease = useCallback((id: number) => {
     setCartItems((prev) =>
       prev.reduce((ack, item) => {
         if (item.id === id) {
@@ -133,76 +133,56 @@ function App() {
         }
       }, [] as Product[])
     )
-  }
+  }, [])
   //----------------------------------------------------------------------------------
-  const handleRemoveFromCart = (id: number) => {
-    setCartItems((prev) =>
-      prev.reduce((ack, item) => {
-        if (item.id === id) {
-          return ack
-          // return [...ack, { ...item, quantity: item.quantity - 1 }]
-        } else {
-          return [...ack, item]
-        }
-      }, [] as Product[])
-    )
-  }
+  const handleRemoveFromCart = useCallback((id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id))
+  }, [])
   //----------------------------------------------------------------------------------
+  const memoizedContent = useMemo(() => {
+    if (items.length > 0) {
+      return (
+        <ItemsGrid
+          shoppingItems={filteredProducts.length > 0 ? filteredProducts : items}
+          addToCart={handleAddToCart}
+        />
+      )
+    } else if (error) {
+      return <p>{error}</p>
+    } else if (isLoading) {
+      return <p>Loading...</p>
+    } else {
+      return <p>Found no movies.</p>
+    }
+  }, [items, filteredProducts, error, isLoading, handleAddToCart])
 
-  let content: any = <p>Found no movies.</p>
-  let pageContent: any = <p>Found no user.</p>
-  let userPage: any = <p>Found no user. </p>
-  if (user !== null) {
-    pageContent = (
-      // <PageContent
-      //   user={user}
-      //   onSearch={handleSearch}
-      //   cartItems={cartItems}
-      //   getTotalItems={getTotalItems}
-      // />
+  const memoizedPageContent = useMemo(() => {
+    if (user !== null) {
+      return (
+        <Header
+          user={user}
+          cartItems={cartItems}
+          getTotalItems={getTotalItems}
+        />
+      )
+    } else {
+      return <p>Found no user.</p>
+    }
+  }, [user, cartItems, getTotalItems])
 
-      <Header user={user} cartItems={cartItems} getTotalItems={getTotalItems} />
-    )
-    userPage = <UserDetailPage user={user} />
-  }
-
-  //----------------------------------------------------------------------------------
-
-  if (items.length > 0) {
-    // productsCtx.loadProductsToList(items)
-    // console.log(productsCtx.items.length)
-    content = (
-      <ItemsGrid
-        shoppingItems={filteredProducts.length > 0 ? filteredProducts : items}
-        addToCart={handleAddToCart}
-      />
-    )
-  }
-
-  if (error) {
-    content = <p>{error}</p>
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>
-  }
+  const memoizedUserPage = useMemo(() => {
+    if (user !== null) {
+      return <UserDetailPage user={user} />
+    } else {
+      return <p>Found no user.</p>
+    }
+  }, [user])
 
   //----------------------------------------------------------------------------------
-
   return (
-    // <React.Fragment>
-    //   <section>{pageContent}</section>
-    //   <section className='container py-3 px-5 grid'>{content}</section>
-    //   {/* <CartPage
-    //     addToCart={handleAddToCart}
-    //     cartItems={cartItems}
-    //     removeFromCart={handleRemoveFromCart}
-    //   /> */}
-    // </React.Fragment>
-
     <Router>
       <div>
-        <section>{pageContent}</section>
+        <section>{memoizedPageContent}</section>
         <Routes>
           <Route
             path='/cart'
@@ -224,11 +204,13 @@ function App() {
                   categories={categories}
                   onfilter={handleFilter}
                 />
-                <section className='w-full py-3 px-5 '>{content}</section>
+                <section className='w-full py-3 px-5 '>
+                  {memoizedContent}
+                </section>
               </React.Fragment>
             }
           />
-          <Route path='/user-info' element={userPage} />
+          <Route path='/user-info' element={memoizedUserPage} />
         </Routes>
       </div>
     </Router>
