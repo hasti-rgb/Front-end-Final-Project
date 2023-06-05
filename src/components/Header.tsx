@@ -13,19 +13,19 @@ const Header: React.FC<HeaderProps> = ({ user, cartItems, getTotalItems }) => {
     <div className='w-full bg-gray-200 px-4 sm:px-8 py-3  px-sm-5'>
       <header id='header' className='flex items-center'>
         <div className='flex-1 text-start mb-lg-0'>
-          <div className='flex items-center '>
-            <img
-              src='img_508630.png'
-              alt='Profile'
-              className='w-8 h-8 sm:w-12 sm:h-12 object-cover rounded-full '
-              onClick={() => handleUserClick()}
-            />
-            <Link to='/user-info'>
-              <p className='md:text-lg xs:block ms-1 sm:ms-3 hover:border border-b-indigo-500'>
+          <Link to='/user-info'>
+            <div className='flex items-center '>
+              <img
+                src='img_508630.png'
+                alt='Profile'
+                className='w-8 h-8 sm:w-12 sm:h-12 object-cover rounded-full '
+                onClick={() => handleUserClick()}
+              />
+              <p className='hidden md:text-lg xxs:block ms-1 sm:ms-3 hover:border border-b-indigo-500'>
                 Hi, {user.name.firstname}
               </p>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
         <div className='flex-1 text-center'>
           <Link to='/'>
